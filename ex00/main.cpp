@@ -8,6 +8,5 @@ int main() {
 	didier.demote();
 	std::cout << didier << std::endl;
 	jean.demote();
-
 	return 0;
 }
