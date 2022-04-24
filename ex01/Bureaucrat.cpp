@@ -74,3 +74,14 @@ void Bureaucrat::demote() {
 		m_grade++;
 	}
 }
+
+void Bureaucrat::signForm(Form &form) {
+
+	try {
+		form.beSigned(*this);
+		std::cout << this->getName() + " signed " + form.getName() << std::endl;
+	} catch (std::exception& e) {
+		std::cout << this->getName() + " couldn't sign " + form.getName() << std::endl;
+		std::cout << "Reason: " << e.what() << std::endl;
+	}
+}

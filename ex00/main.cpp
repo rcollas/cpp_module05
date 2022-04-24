@@ -5,7 +5,7 @@ int main() {
 	// *Didier's grade is 0. Constructor throw GradeTooHighException
 
 	try {
-		Bureaucrat didier(0);
+		Bureaucrat didier("didier", 0);
 
 		didier.demote();
 		std::cout << didier << std::endl;
@@ -19,7 +19,7 @@ int main() {
 	// *Jean's grade is 151. Constructor throw GradeTooLowException
 
 	try {
-		Bureaucrat jean(151);
+		Bureaucrat jean("jean", 151);
 
 		std::cout << jean << std::endl;
 		jean.promote();
@@ -32,7 +32,7 @@ int main() {
 	}
 
 	try {
-		Bureaucrat bernard(150);
+		Bureaucrat bernard("bernard", 150);
 
 		bernard.promote();
 		std::cout << bernard << std::endl;
@@ -49,7 +49,7 @@ int main() {
 	}
 
 	try {
-		Bureaucrat louis(1);
+		Bureaucrat louis("louis", 1);
 
 		louis.demote();
 		std::cout << louis << std::endl;
