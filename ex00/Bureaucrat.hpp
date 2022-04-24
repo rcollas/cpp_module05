@@ -19,19 +19,19 @@ class Bureaucrat {
 		void promote();
 		void demote();
 
+		class GradeTooHighException : public std::exception {
+			public :
+				virtual const char * what() const throw();
+		};
+
+		class GradeTooLowException : public std::exception {
+			public :
+				virtual const char * what() const throw();
+		};
+
 	private:
 		std::string const m_name;
 		int m_grade;
-
-	class GradeTooHighException : public std::exception {
-		public :
-			virtual const char * what() const throw();
-	};
-
-	class GradeTooLowException : public std::exception {
-		public :
-			virtual const char * what() const throw();
-	};
 
 };
 

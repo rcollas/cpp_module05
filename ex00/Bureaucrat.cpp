@@ -2,21 +2,16 @@
 
 Bureaucrat::Bureaucrat() : m_name("Didier"), m_grade(150) {}
 
-Bureaucrat::Bureaucrat(int grade) : m_name("Didier") {
+// *Bureaucrat's grade goes from 150 (lowest) to 1 (highest)
+// *Values below 1 or above 150 throw exceptions
 
-	try {
+Bureaucrat::Bureaucrat(int grade) : m_name("Didier"), m_grade(grade) {
+
 		if (grade < 1) {
 			throw GradeTooHighException();
 		} else if (grade > 150) {
 			throw GradeTooLowException();
-		} else {
-			m_grade = grade;
 		}
-	} catch (GradeTooHighException& e) {
-		std::cerr << e.what() << std::endl;
-	} catch (GradeTooLowException& e) {
-		std::cerr << e.what() << std::endl;
-	}
 }
 
 Bureaucrat::~Bureaucrat() {}
@@ -54,7 +49,7 @@ int Bureaucrat::getGrade() const {
 
 const char * Bureaucrat::GradeTooHighException::what() const throw() {
 
-	return "Grade is too high. Set to 1";
+	return "Grade is too high";
 }
 
 const char * Bureaucrat::GradeTooLowException::what() const throw() {
@@ -64,26 +59,18 @@ const char * Bureaucrat::GradeTooLowException::what() const throw() {
 
 void Bureaucrat::promote() {
 
-	try {
-		if (m_grade - 1 < 1) {
-			throw GradeTooHighException();
-		} else {
-			m_grade--;
-		}
-	} catch (GradeTooHighException& e) {
-		std::cerr << e.what() << std::endl;
+	if (m_grade - 1 < 1) {
+		throw GradeTooHighException();
+	} else {
+		m_grade--;
 	}
 }
 
 void Bureaucrat::demote() {
 
-	try {
-		if (m_grade + 1 > 150) {
-			throw GradeTooLowException();
-		} else {
-			m_grade++;
-		}
-	} catch (GradeTooLowException& e) {
-		std::cerr << e.what() << std::endl;
+	if (m_grade + 1 > 150) {
+		throw GradeTooLowException();
+	} else {
+		m_grade++;
 	}
 }
