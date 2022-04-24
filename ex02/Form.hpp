@@ -13,7 +13,7 @@ class Form {
 		Form();
 		Form(std::string name, int reqSignGrade, int reqExecGrade);
 		Form(Form const &src);
-		~Form();
+		virtual ~Form();
 
 		Form &operator=(Form const &rhs);
 
@@ -22,6 +22,8 @@ class Form {
 		std::string isSigned() const;
 		int getReqSignGrade() const;
 		int getReqExecGrade() const;
+		virtual void execute(Bureaucrat const &executor) const = 0;
+		void execAuthorization(Bureaucrat const &bureaucrat) const;
 
 		class GradeTooHighException : public std::exception {
 			public :
@@ -29,6 +31,11 @@ class Form {
 		};
 
 		class GradeTooLowException : public std::exception {
+			public :
+				virtual const char * what() const throw();
+		};
+
+		class ExecuteRequirementException : public std::exception {
 			public :
 				virtual const char * what() const throw();
 		};

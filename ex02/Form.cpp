@@ -77,6 +77,14 @@ int Form::getReqExecGrade() const {
 	return this->m_reqExecGrade;
 }
 
+void Form::execAuthorization(Bureaucrat const &bureaucrat) const {
+
+	if (bureaucrat.getGrade() > this->m_reqExecGrade
+		|| !this->m_isSigned) {
+		throw ExecuteRequirementException();
+	}
+}
+
 const char * Form::GradeTooHighException::what() const throw() {
 
 	return "Grade is too high";
@@ -85,6 +93,11 @@ const char * Form::GradeTooHighException::what() const throw() {
 const char * Form::GradeTooLowException::what() const throw() {
 
 	return "Grade is too low";
+}
+
+const char * Form::ExecuteRequirementException::what() const throw() {
+
+	return "Execution denied. Make sure that the form is signed and that the bureaucrat's grade is valid";
 }
 
 std::ostream &operator<<(std::ostream &out, Form &form) {
