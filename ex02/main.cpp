@@ -3,38 +3,73 @@
 #include "RobotomyRequestForm.hpp"
 #include "PresidentialPardonForm.hpp"
 
-void printTest(int i) {
+void printTest(std::string msg) {
 
-	std::string line(20, '*');
+	std::string line((20 - msg.length() / 2) * 2 + msg.length(), '*');
+	std::string fill(20 - msg.length() / 2, '*');
 	std::cout << "\x1B[34m";
 	std::cout << line << std::endl;
-	std::cout << "*******Test " << i << "*******" << std::endl;
+	std::cout << fill << msg << fill << std::endl;
 	std::cout << line << "\033[0m" << std::endl;
 }
 
 int main() {
 
-	ShrubberyCreationForm garden("garden");
 	Bureaucrat denis("denis", 1);
 
-	garden.execute(denis);
-	garden.beSigned(denis);
-	garden.execute(denis);
+	printTest("Shrubbery not signed");
 
-	RobotomyRequestForm glados("glados");
+	try {
+		ShrubberyCreationForm garden("garden");
 
-	glados.execute(denis);
-	glados.beSigned(denis);
-	glados.execute(denis);
+		garden.execute(denis);
+	} catch (std::exception &e) {
+		std::cerr << e.what() << std::endl;
+	}
 
-	PresidentialPardonForm franklin("franklin");
+	printTest("Robotomy not signed");
 
-	franklin.execute(denis);
-	franklin.beSigned(denis);
-	franklin.execute(denis);
+	try {
+		RobotomyRequestForm glados("glados");
 
-	ShrubberyCreationForm newGarden("garden");
-	denis.executeForm(newGarden);
+		glados.execute(denis);
+	} catch (std::exception &e) {
+		std::cerr << e.what() << std::endl;
+	}
+
+	printTest("PresidentialPardon not signed");
+
+	try {
+		PresidentialPardonForm franklin("franklin");
+
+		franklin.execute(denis);
+	} catch (std::exception &e) {
+		std::cerr << e.what() << std::endl;
+	}
+
+	printtest("executeform missing signature");
+
+	{
+		shrubberycreationform newgarden("garden");
+		denis.executeform(newgarden);
+		denis.signform(newgarden);
+		denis.executeform(newgarden);
+	}
+
+	printtest("executeform invalid grade");
+
+	{
+		bureaucrat phil("phil", 25);
+		presidentialpardonform pardon("pardon");
+
+		phil.executeForm(pardon);
+		pardon.beSigned(denis);
+		phil.executeForm(pardon);
+		for (int i = 0; i < 24; i++) {
+			phil.promote();
+		}
+		phil.executeForm(pardon);
+	}
 
 	return 0;
 }
